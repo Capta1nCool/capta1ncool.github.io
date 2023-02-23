@@ -81,7 +81,7 @@ class BasicWorldDemo {
     }
 
     _initItems() {
-        let gun = this._loadModel('./scar.glb', './Scar_Diffuse.jpg')
+        let gun = this._loadModel('https://venge.io/files/assets/46780312/1/Weapon-Scar.glb', './Scar_Diffuse.jpg')
 
         console.log(gun);
     }
