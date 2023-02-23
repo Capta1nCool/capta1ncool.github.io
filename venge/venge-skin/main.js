@@ -55,35 +55,92 @@ class BasicWorldDemo {
     _loadModel(path, texture) {
         let glbloader = new GLTFLoader();
         glbloader.load(path, (gltf) => {
-            const box = new THREE.Box3().setFromObject(gltf.scene);
+            const box = new THREE.Box3().setFromObject(weaponModel);
             const center = box.getCenter(new THREE.Vector3());
 
-            gltf.scene.position.x += (gltf.scene.position.x - center.x);
-            gltf.scene.position.y += (gltf.scene.position.y - center.y);
-            gltf.scene.position.z += (gltf.scene.position.z - center.z);
+            weaponModel.position.x += (weaponModel.position.x - center.x);
+            weaponModel.position.y += (weaponModel.position.y - center.y);
+            weaponModel.position.z += (weaponModel.position.z - center.z);
 
-            gltf.scene.rotation.y = 80;
+            weaponModel.rotation.y = 80;
 
             if (texture) {
                 var guntexture = new THREE.TextureLoader().load(texture);
                 guntexture.flipY = false;
                 const newMaterial = new THREE.MeshBasicMaterial({ map: guntexture });
-                gltf.scene.traverse((o) => {
+                weaponModel.traverse((o) => {
                     if (o.isMesh) o.material = newMaterial;
                 });
             }
 
-            this._scene.add(gltf.scene);
+            this._scene.add(weaponModel);
         }, undefined, function (error) {
 
             console.error(error);
         });
     }
 
-    _initItems() {
-        let gun = this._loadModel('https://venge.io/files/assets/46780312/1/Weapon-Scar.glb', './Scar_Diffuse.jpg')
+    _changeTexture(weaponModel, texture) {
+        var guntexture = new THREE.TextureLoader().load(texture);
+        guntexture.flipY = false;
+        const newMaterial = new THREE.MeshBasicMaterial({ map: guntexture });
+        weaponModel.traverse((o) => {
+            if (o.isMesh) o.material = newMaterial;
+        });
+    }
 
-        console.log(gun);
+    _changeModel(modelurl, glbloader) {
+        glbloader.load(modelurl, (gltf) => {
+            var weaponModel = gltf.scene;
+            
+            const box = new THREE.Box3().setFromObject(weaponModel);
+            const center = box.getCenter(new THREE.Vector3());
+            weaponModel.position.x += (weaponModel.position.x - center.x);
+            weaponModel.position.y += (weaponModel.position.y - center.y);
+            weaponModel.position.z += (weaponModel.position.z - center.z);
+            weaponModel.rotation.y = 80;
+            
+            
+            this._scene.add(weaponModel);
+        }, undefined, function (error) {
+            console.error(error);
+        });
+
+        return weaponModel
+    }
+
+    _initItems() {
+        let glbloader = new GLTFLoader();
+        glbloader.load('https://venge.io/files/assets/46780312/1/Weapon-Scar.glb', (gltf) => {
+            var weaponModel = gltf.scene;
+
+            console.log(weaponModel)
+
+            const box = new THREE.Box3().setFromObject(weaponModel);
+            const center = box.getCenter(new THREE.Vector3());
+            weaponModel.position.x += (weaponModel.position.x - center.x);
+            weaponModel.position.y += (weaponModel.position.y - center.y);
+            weaponModel.position.z += (weaponModel.position.z - center.z);
+            weaponModel.rotation.y = 80;
+
+            var guntexture = new THREE.TextureLoader().load('./Scar_Diffuse.jpg');
+            guntexture.flipY = false;
+            const newMaterial = new THREE.MeshBasicMaterial({ map: guntexture });
+            weaponModel.traverse((o) => {
+                if (o.isMesh) o.material = newMaterial;
+            });
+
+            this._scene.add(weaponModel);
+
+            console.log(weaponModel)
+            document.querySelector("body > button").onclick = () => {
+                this._changeTexture(weaponModel, 'https://assets.venge.io/Scar-Inferno.png')
+                //this._changeModel("https://venge.io/files/assets/46780314/1/Weapon-Shotgun.glb", glbloader)
+            }
+        }, undefined, function (error) {
+
+            console.error(error);
+        });
     }
 
 
