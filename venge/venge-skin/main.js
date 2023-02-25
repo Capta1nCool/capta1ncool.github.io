@@ -55,29 +55,37 @@ class BasicWorldDemo {
     _loadModel(path, texture) {
         let glbloader = new GLTFLoader();
         glbloader.load(path, (gltf) => {
-            const box = new THREE.Box3().setFromObject(weaponModel);
+            this.gunModel = gltf.scene;
+            const box = new THREE.Box3().setFromObject(this.gunModel);
             const center = box.getCenter(new THREE.Vector3());
 
-            weaponModel.position.x += (weaponModel.position.x - center.x);
-            weaponModel.position.y += (weaponModel.position.y - center.y);
-            weaponModel.position.z += (weaponModel.position.z - center.z);
+            this.gunModel.position.x += (this.gunModel.position.x - center.x);
+            this.gunModel.position.y += (this.gunModel.position.y - center.y);
+            this.gunModel.position.z += (this.gunModel.position.z - center.z);
 
-            weaponModel.rotation.y = 80;
+            this.gunModel.rotation.y = 80;
 
             if (texture) {
                 var guntexture = new THREE.TextureLoader().load(texture);
                 guntexture.flipY = false;
                 const newMaterial = new THREE.MeshBasicMaterial({ map: guntexture });
-                weaponModel.traverse((o) => {
+                this.gunModel.traverse((o) => {
                     if (o.isMesh) o.material = newMaterial;
                 });
             }
 
-            this._scene.add(weaponModel);
+            this._scene.add(this.gunModel);
         }, undefined, function (error) {
 
             console.error(error);
         });
+    }
+
+    _changeModel(newModel, texture) {
+        this._scene.remove(this.gunModel)
+        console.log(this.gunModel)
+
+        this._loadModel(newModel, texture)
     }
 
     _changeTexture(weaponModel, texture) {
@@ -89,60 +97,23 @@ class BasicWorldDemo {
         });
     }
 
-    _changeModel(modelurl, glbloader) {
-        glbloader.load(modelurl, (gltf) => {
-            var weaponModel = gltf.scene;
-            
-            const box = new THREE.Box3().setFromObject(weaponModel);
-            const center = box.getCenter(new THREE.Vector3());
-            weaponModel.position.x += (weaponModel.position.x - center.x);
-            weaponModel.position.y += (weaponModel.position.y - center.y);
-            weaponModel.position.z += (weaponModel.position.z - center.z);
-            weaponModel.rotation.y = 80;
-            
-            
-            this._scene.add(weaponModel);
-        }, undefined, function (error) {
-            console.error(error);
-        });
-
-        return weaponModel
-    }
-
     _initItems() {
-        let glbloader = new GLTFLoader();
-        glbloader.load('https://venge.io/files/assets/46780312/1/Weapon-Scar.glb', (gltf) => {
-            var weaponModel = gltf.scene;
+        this._loadModel("https://venge.io/files/assets/46780312/1/Weapon-Scar.glb", './Scar_Diffuse.jpg')
 
-            console.log(weaponModel)
+        document.querySelector("body > button").onclick = () => {
+            this._changeModel("https://venge.io/files/assets/46780314/1/Weapon-Shotgun.glb", "./Scar_Diffuse.jpg")
+            // this._changeTexture(this.gunModel, 'https://assets.venge.io/Scar-Inferno.png')
+        }
 
-            const box = new THREE.Box3().setFromObject(weaponModel);
-            const center = box.getCenter(new THREE.Vector3());
-            weaponModel.position.x += (weaponModel.position.x - center.x);
-            weaponModel.position.y += (weaponModel.position.y - center.y);
-            weaponModel.position.z += (weaponModel.position.z - center.z);
-            weaponModel.rotation.y = 80;
-
-            var guntexture = new THREE.TextureLoader().load('./Scar_Diffuse.jpg');
-            guntexture.flipY = false;
-            const newMaterial = new THREE.MeshBasicMaterial({ map: guntexture });
-            weaponModel.traverse((o) => {
-                if (o.isMesh) o.material = newMaterial;
-            });
-
-            this._scene.add(weaponModel);
-
-            console.log(weaponModel)
-            document.querySelector("body > button").onclick = () => {
-                this._changeTexture(weaponModel, 'https://assets.venge.io/Scar-Inferno.png')
-                //this._changeModel("https://venge.io/files/assets/46780314/1/Weapon-Shotgun.glb", glbloader)
+        var modelButtons = document.getElementsByClassName("weapon");
+        for (var i = 0; i < modelButtons.length; i++) {
+            let modelButton = modelButtons[i];
+            modelButton.onclick = (e) => {
+                console.log(e.srcElement.dataset.model)
+                this._changeModel(e.srcElement.dataset.model, e.srcElement.dataset.texture)
             }
-        }, undefined, function (error) {
-
-            console.error(error);
-        });
+        }
     }
-
 
     _OnWindowResize() {
         this._camera.aspect = window.innerWidth / window.innerHeight;
