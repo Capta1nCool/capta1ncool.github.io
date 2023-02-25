@@ -24,7 +24,23 @@
             position: absolute;
             right: 0px;
         }
-    
+
+        .weapons-cont {
+            position: absolute;
+            bottom: 1rem; left: 50%;
+            transform: translate(-50%, -50%);
+            width: fit-content; height: 10vh;
+            background-color: rgb(19, 19, 19);
+            border-radius: 1rem;
+            z-index: 10;
+            display: flex;
+        }
+        
+        .weapon {
+            background: orange;
+            height: 100%; width: 7rem;
+            border: 2px solid black;
+        }
     </style>
 </head>
 
@@ -42,25 +58,31 @@
     <script src="main.js" type="module"></script>
     <button class="change">change</button>
     <div class="weapons-cont">
-        <div class="weapon">
+        <div class="weapon" data-model="https://venge.io/files/assets/46780312/1/Weapon-Scar.glb" data-texture="https://skinmaker.venge.io/files/assets/36892900/1/Scar_Diffuse.jpg">
             <img src="" class="weapon-img">
         </div>
-        <div class="weapon">
+        <div class="weapon" data-model="https://venge.io/files/assets/46780314/1/Weapon-Shotgun.glb" data-texture="https://skinmaker.venge.io/files/assets/36893020/1/HS_12_Diffuse.jpg">
             <img src="" class="weapon-img">
         </div>
-        <div class="weapon">
+        <div class="weapon" data-model="https://venge.io/files/assets/31055964/1/Weapon-Sniper.glb" data-texture="https://skinmaker.venge.io/files/assets/36893137/1/Sniper.jpg">
             <img src="" class="weapon-img">
         </div>
-        <div class="weapon">
+        <div class="weapon" data-model="https://venge.io/files/assets/31196825/1/Weapon-Tec-9.glb" data-texture="https://skinmaker.venge.io/files/assets/36892947/1/Tec_1_Diffuse.jpg">
             <img src="" class="weapon-img">
         </div>
-        <div class="weapon">
+        <div class="weapon" data-model="https://venge.io/files/assets/47845327/1/Weapon-M4.glb" data-texture="https://skinmaker.venge.io/files/assets/36893631/1/M4-Texture.png">
             <img src="" class="weapon-img">
         </div>
-        <div class="weapon">
+        <div class="weapon" data-model="https://venge.io/files/assets/36538507/1/Weapon-LMG.glb" data-texture="https://skinmaker.venge.io/files/assets/36893462/1/LMG.jpg">
             <img src="" class="weapon-img">
         </div>
-        <div class="weapon">
+        <div class="weapon" data-model="https://venge.io/files/assets/36544153/1/Weapon-Desert-Eagle.glb" data-texture="https://skinmaker.venge.io/files/assets/36893699/1/Deagle-Texture.jpg">
+            <img src="" class="weapon-img">
+        </div>
+        <div class="weapon" data-model="https://venge.io/files/assets/56352337/1/AK-47.glb" data-texture="https://skinmaker.venge.io/files/assets/56352336/1/ak47_nochain_txt_fix.jpg">
+            <img src="" class="weapon-img">
+        </div>
+        <div class="weapon" data-model="https://venge.io/files/assets/36573024/1/Weapon-Dagger.glb" data-texture="https://skinmaker.venge.io/files/assets/36893719/1/Dagger-Texture.jpg">
             <img src="" class="weapon-img">
         </div>
     </div>
