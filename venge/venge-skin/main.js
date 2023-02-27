@@ -45,6 +45,8 @@ class BasicWorldDemo {
 
         this._scene.background = new THREE.TextureLoader().load('./sky.jpg');
         this._RAF();
+
+        this.glbloader = new GLTFLoader();
     }
 
     _initLights() {
@@ -53,8 +55,7 @@ class BasicWorldDemo {
     }
 
     _loadModel(path, texture) {
-        let glbloader = new GLTFLoader();
-        glbloader.load(path, (gltf) => {
+        this.glbloader.load(path, (gltf) => {
             this.gunModel = gltf.scene;
             const box = new THREE.Box3().setFromObject(this.gunModel);
             const center = box.getCenter(new THREE.Vector3());
@@ -84,7 +85,6 @@ class BasicWorldDemo {
     _changeModel(newModel, texture) {
         this._scene.remove(this.gunModel)
         console.log(this.gunModel)
-
         this._loadModel(newModel, texture)
     }
 
@@ -109,7 +109,7 @@ class BasicWorldDemo {
         for (var i = 0; i < modelButtons.length; i++) {
             let modelButton = modelButtons[i];
             modelButton.onclick = (e) => {
-                console.log(e.srcElement.dataset.model)
+                console.log(e.srcElement.dataset.texture)
                 this._changeModel(e.srcElement.dataset.model, e.srcElement.dataset.texture)
             }
         }
