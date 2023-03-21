@@ -25,7 +25,9 @@ new MutationObserver(mutationRecords => {
     try {
         mutationRecords.forEach(record => {
             record.addedNodes.forEach(el => {
+                console.log(el.id);
                 if (el.id == "ClientContent") {
+                    console.log('inside')
                     var tabCont = document.querySelector("#content > div > div.tab-content");
 
                     let settingHTML = document.createElement('div')
