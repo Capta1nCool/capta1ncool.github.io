@@ -91,51 +91,52 @@ new MutationObserver(mutationRecords => {
     }
 }).observe(document, { childList: true, subtree: true });
 
-pc.app.on('Player:Focused', function (state) {
-    try {
-        if (state) {
-            if (settings.get('HideADS')) {
-                pc.app.scene.layers.getLayerByName('NonFOV').enabled = false;
-                let crosshair = pc.app.root.findByName('Crosshair');
-                crosshair.enabled = true;
+document.addEventListener("DOMContentLoaded", () => {
+    pc.app.on('Player:Focused', function (state) {
+        try {
+            if (state) {
+                if (settings.get('HideADS')) {
+                    pc.app.scene.layers.getLayerByName('NonFOV').enabled = false;
+                    let crosshair = pc.app.root.findByName('Crosshair');
+                    crosshair.enabled = true;
+                }
+            } else {
+                if (settings.get('HideHands')) {
+                    pc.app.root.findByName('Player').findByName('ArmLeft').enabled = false;
+                    pc.app.root.findByName('Player').findByName('ArmRight').enabled = false;
+                }
+                pc.app.scene.layers.getLayerByName('NonFOV').enabled = true;
+                if (settings.get('BetterUI')) {
+                    pc.app.root.findByName('Overlay').findByName("Hitmarker").enabled = false;
+                    pc.app.root.findByName('Overlay').findByName('Leaderboard').enabled = false;
+                    pc.app.root.findByName('Overlay').findByName("Weapons").enabled = false;
+                    pc.app.root.findByName('Overlay').findByName('Stats').setLocalPosition(600, -700, 0)
+                }
             }
-        } else {
-            if (settings.get('HideHands')) {
-                pc.app.root.findByName('Player').findByName('ArmLeft').enabled = false;
-                pc.app.root.findByName('Player').findByName('ArmRight').enabled = false;
-            }
-            pc.app.scene.layers.getLayerByName('NonFOV').enabled = true;
-            if (settings.get('BetterUI')) {
-                pc.app.root.findByName('Overlay').findByName("Hitmarker").enabled = false;
-                pc.app.root.findByName('Overlay').findByName('Leaderboard').enabled = false;
-                pc.app.root.findByName('Overlay').findByName("Weapons").enabled = false;
-                pc.app.root.findByName('Overlay').findByName('Stats').setLocalPosition(600, -700, 0)
-            }
+        } catch (error) {
+            console.log(error)
         }
-    } catch (error) {
-        console.log(error)
-    }
-});
+    });
 
-pc.app.on("Map:Loaded", () => {
+    pc.app.on("Map:Loaded", () => {
 
-    if (settings.get('DisableLight')) {
-        pc.app.root.findByName('MapHolder').findByName('Light').light.color = { r: 0, g: 0, b: 0, a: 1 };
-    } else {
-        pc.app.root.findByName('MapHolder').findByName('Light').light.color = { r: 1, g: 1, b: 1, a: 1 };
-    }
-})
-
-if (settings.get('ToggleWeapon')) {
-    document.addEventListener('keydown', (e) => {
-        if (e.code == 'Backquote') {
-            try {
-                pc.app.root.findByName('Weapon').enabled = !pc.app.root.findByName('Weapon').enabled;
-            } catch (error) {
-                console.log('not in a game')
-            }
+        if (settings.get('DisableLight')) {
+            pc.app.root.findByName('MapHolder').findByName('Light').light.color = { r: 0, g: 0, b: 0, a: 1 };
+        } else {
+            pc.app.root.findByName('MapHolder').findByName('Light').light.color = { r: 1, g: 1, b: 1, a: 1 };
         }
     })
-}
 
+    if (settings.get('ToggleWeapon')) {
+        document.addEventListener('keydown', (e) => {
+            if (e.code == 'Backquote') {
+                try {
+                    pc.app.root.findByName('Weapon').enabled = !pc.app.root.findByName('Weapon').enabled;
+                } catch (error) {
+                    console.log('not in a game')
+                }
+            }
+        })
+    }
+});
 // pc.app.root.findByName('Player').script.player.onCharacterSkinSet
