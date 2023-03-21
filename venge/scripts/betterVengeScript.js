@@ -146,15 +146,3 @@ document.addEventListener("DOMContentLoaded", () => {
 })
 
 // pc.app.root.findByName('Player').script.player.onCharacterSkinSet
-
-window._pc = false;1
-Object.defineProperty(window, "pc", {
-    set(value) {
-        if (!window.pc) {
-            window._pc = value;
-        }
-    },
-    get() {
-        return (window._pc);
-    }
-});
