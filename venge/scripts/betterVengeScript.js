@@ -171,7 +171,7 @@ settingsData.expFlag = settings.get("exp-flag")
 settingsData.gpu_ras = settings.get("gpu-rasterization")
 settingsData.fullscreen_mode = settings.get('Fullscreen')
 
-
+console.log("test with github")
 if (process.platform === 'win32') {
     const documents = ipcRenderer.sendSync('docs');
     const scriptFolder = documents + "\\Venge-Client\\scripts";
